@@ -1,0 +1,27 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+CREATE TABLE IF NOT EXISTS card (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name VARCHAR(255) NOT NULL,
+    question TEXT NOT NULL,
+    is_featured BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+
+CREATE TABLE IF NOT EXISTS answer (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    card_id UUID NOT NULL REFERENCES card(id) ON DELETE CASCADE,
+    answer_text TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+
+CREATE TABLE IF NOT EXISTS answer_vote (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    answer_id UUID NOT NULL REFERENCES answer(id) ON DELETE CASCADE,
+    vote_type VARCHAR(10) NOT NULL,
+    emoji VARCHAR(10),
+    voted_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
