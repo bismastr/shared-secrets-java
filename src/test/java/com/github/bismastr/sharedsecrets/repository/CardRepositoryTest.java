@@ -14,6 +14,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,6 +30,7 @@ public class CardRepositoryTest {
             .withDatabaseName("testdb")
             .withUsername("test")
             .withPassword("test");
+
     @DynamicPropertySource
     static void dynamicPropertySource(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", postgres::getJdbcUrl);
@@ -61,15 +63,15 @@ public class CardRepositoryTest {
 
         assertThat(featuredCards).hasSize(2);
         assertThat(featuredCards)
-                .extracting(Card::getName)
-                .containsExactlyInAnyOrder("Featured Card 1", "Featured Card 2");
+                .extracting(Card::getQuestion)
+                .containsExactlyInAnyOrder("Question 1", "Question 2");
     }
 
     private Card createCard(String name, String question, boolean isFeatured) {
         Card card = new Card();
-        card.setName(name);
         card.setQuestion(question);
         card.setFeatured(isFeatured);
+        card.setUpdatedAt(LocalDateTime.now());
         return card;
     }
 }

@@ -23,22 +23,18 @@ public class Card {
     @GeneratedValue
     private UUID id;
 
-    @NotBlank(message = "Name cannot be empty")
-    @Column(nullable = false, length = 100) // Specify column constraints
-    private String name;
-
     @NotBlank(message = "Question cannot be empty")
-    @Column(nullable = false, length = 1000) // Limiting question length
+    @Column(nullable = false, length = 1000)
     private String question;
 
     @NotNull(message = "Featured status must be specified")
-    @Column(name = "is_featured") // Use snake_case in DB but camelCase in Java
-    private boolean featured; // Java naming convention (camelCase)
+    @Column(name = "is_featured")
+    private boolean featured;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
     @PrePersist
