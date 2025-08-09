@@ -1,18 +1,19 @@
 package com.github.bismastr.sharedsecrets.dto;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Getter
+@Data
 @Builder
-public class CardResponse {
+@NoArgsConstructor
+@AllArgsConstructor
+public class CardDto {
     private UUID id;
     private String name;
     private String question;
-    private boolean is_featured;
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
+    private boolean featured;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

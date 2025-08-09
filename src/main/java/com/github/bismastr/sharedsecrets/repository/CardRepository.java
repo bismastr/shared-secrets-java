@@ -10,6 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface CardRepository extends JpaRepository<Card, UUID> {
-    @Query("SELECT c FROM Card c WHERE c.is_featured = ?1")
+    @Query("SELECT c FROM Card c WHERE c.featured = ?1")
     List<Card> findAllByFeatured(boolean isFeatured);
 }

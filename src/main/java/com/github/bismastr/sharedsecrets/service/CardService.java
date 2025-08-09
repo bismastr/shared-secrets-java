@@ -1,29 +1,32 @@
 package com.github.bismastr.sharedsecrets.service;
 
 
-import com.github.bismastr.sharedsecrets.dto.CardResponse;
+import com.github.bismastr.sharedsecrets.dto.CardDto;
+import com.github.bismastr.sharedsecrets.mapper.CardMapper;
 import com.github.bismastr.sharedsecrets.repository.CardRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CardService {
     private final CardRepository cardRepository;
+    private final CardMapper cardMapper;
 
-    public List<CardResponse> getFeaturedCards() {
-        return cardRepository.findAllByFeatured(true)
-                .stream().map(
-                        card -> CardResponse.builder()
-                                .id(card.getId())
-                                .name(card.getName())
-                                .question(card.getQuestion())
-                                .is_featured(card.is_featured())
-                                .created_at(card.getCreated_at())
-                                .updated_at(card.getUpdated_at())
-                                .build()
-                ).toList();
+    @Transactional(readOnly = true)
+    public List<CardDto> getFeaturedCards(boolean featured) {
+        log.debug("Retrieving all featured cards");
+        List<CardDto> listFeaturedCards = cardRepository.findAllByFeatured(featured)
+                .stream()
+                .map(cardMapper::toCardDto)
+                .toList();
+
+        log.debug("Found {} featured cards", listFeaturedCards.size());
+        return listFeaturedCards;
     }
 }
