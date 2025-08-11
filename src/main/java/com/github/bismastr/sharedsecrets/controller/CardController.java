@@ -4,9 +4,7 @@ import com.github.bismastr.sharedsecrets.dto.CardDto;
 import com.github.bismastr.sharedsecrets.service.CardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +18,11 @@ public class CardController {
     public ResponseEntity<List<CardDto>> getFeaturedCards() {
         List<CardDto> featuredCards = cardService.getFeaturedCards(true);
         return ResponseEntity.ok(featuredCards);
+    }
+
+    @PostMapping
+    public ResponseEntity<CardDto> saveCard(@RequestBody CardDto cardDto) {
+        CardDto savedCard = cardService.insertCard(cardDto);
+        return ResponseEntity.ok(savedCard);
     }
 }

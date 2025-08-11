@@ -31,4 +31,14 @@ public class CardService {
         log.debug("Found {} featured cards DEBUG", listFeaturedCards);
         return listFeaturedCards;
     }
+
+    @Transactional
+    public CardDto insertCard(CardDto cardDto) {
+        log.debug("Inserting new card: {}", cardDto);
+        Card card = cardMapper.toCard(cardDto);
+        Card savedCard = cardRepository.save(card);
+        CardDto savedCardDto = cardMapper.toCardDto(savedCard);
+        log.debug("Inserted new card: {}", savedCardDto);
+        return savedCardDto;
+    }
 }

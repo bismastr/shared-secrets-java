@@ -80,4 +80,20 @@ public class CardServiceTest {
         verify(cardMapper).toCardDto(card1);
         verify(cardMapper).toCardDto(card2);
     }
+
+    @Test
+    void getFeaturedCards_WhenNoCardsExist_ShouldReturnEmptyList() {
+        // Arrange
+        boolean isFeatured = true;
+        when(cardRepository.findAllByFeatured(isFeatured)).thenReturn(List.of());
+
+        // Act
+        List<CardDto> result = cardService.getFeaturedCards(isFeatured);
+
+        // Assert
+        assertThat(result).isNotNull();
+        assertThat(result).isEmpty();
+
+        verify(cardRepository).findAllByFeatured(isFeatured);
+    }
 }

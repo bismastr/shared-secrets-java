@@ -37,6 +37,7 @@ public class CardRepositoryTest {
         registry.add("spring.datasource.username", postgres::getUsername);
         registry.add("spring.datasource.password", postgres::getPassword);
     }
+
     @Autowired
     private TestEntityManager entityManager;
 
@@ -50,9 +51,9 @@ public class CardRepositoryTest {
 
     @Test
     void findAllByFeatured_WhenFeaturedCards_ShouldReturnFeaturedCards() {
-        Card featuredCard1 = createCard("Featured Card 1", "Question 1", true);
-        Card featuredCard2 = createCard("Featured Card 2", "Question 2", true);
-        Card nonFeaturedCard = createCard("Non-featured Card", "Question 3", false);
+        Card featuredCard1 = createCard( "Question 1", true);
+        Card featuredCard2 = createCard( "Question 2", true);
+        Card nonFeaturedCard = createCard( "Question 3", false);
 
         entityManager.persist(featuredCard1);
         entityManager.persist(featuredCard2);
@@ -67,7 +68,33 @@ public class CardRepositoryTest {
                 .containsExactlyInAnyOrder("Question 1", "Question 2");
     }
 
-    private Card createCard(String name, String question, boolean isFeatured) {
+    @Test
+    void findAllByFeatured_WhenNoFeaturedCards_ShouldReturnEmptyList() {
+        Card nonFeaturedCard1 = createCard( "Question 1", false);
+        Card nonFeaturedCard2 = createCard( "Question 2", false);
+
+        entityManager.persist(nonFeaturedCard1);
+        entityManager.persist(nonFeaturedCard2);
+        entityManager.flush();
+
+        List<Card> featuredCards = cardRepository.findAllByFeatured(true);
+
+        assertThat(featuredCards).isEmpty();
+    }
+
+    @Test
+    void saveCard_WhenCardIsSaved_ShouldPersistCard() {
+        Card card = createCard( "Test Question", true);
+        Card savedCard = cardRepository.save(card);
+
+        assertThat(savedCard).isNotNull();
+        assertThat(savedCard.getId()).isNotNull();
+        assertThat(savedCard.getQuestion()).isEqualTo("Test Question");
+        assertThat(savedCard.isFeatured()).isTrue();
+        assertThat(savedCard.getUpdatedAt()).isNotNull();
+    }
+
+    private Card createCard(String question, boolean isFeatured) {
         Card card = new Card();
         card.setQuestion(question);
         card.setFeatured(isFeatured);
