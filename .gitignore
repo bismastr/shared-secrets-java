@@ -4,7 +4,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 application.yml
-
+.github
 
 ### IntelliJ IDEA ###
 .idea/dataSources.xml
