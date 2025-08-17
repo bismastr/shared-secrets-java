@@ -37,7 +37,7 @@ public class Answer {
     private OffsetDateTime updatedAt;
 
     @OneToMany(mappedBy = "answer")
-    private Set<AnswerVote> answerVotes = new LinkedHashSet<>();
+    private Set<Vote> votes = new LinkedHashSet<>();
 
     @PrePersist
     public void prePersist() {

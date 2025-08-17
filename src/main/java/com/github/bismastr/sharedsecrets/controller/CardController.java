@@ -22,7 +22,7 @@ public class CardController {
 
     @PostMapping
     public ResponseEntity<CardDto> saveCard(@RequestBody CardDto cardDto) {
-        CardDto savedCard = cardService.insertCard(cardDto);
+        CardDto savedCard = cardService.saveCard(cardDto);
         return ResponseEntity.ok(savedCard);
     }
 }

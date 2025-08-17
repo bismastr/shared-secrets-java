@@ -25,19 +25,19 @@ public class CardService {
         List<Card> cardsList = cardRepository.findAllByFeatured(featured);
         List<CardDto> listFeaturedCards = cardsList
                 .stream()
-                .map(cardMapper::toCardDto)
+                .map(cardMapper::toDto)
                 .toList();
 
-        log.debug("Found {} featured cards DEBUG", listFeaturedCards);
+        log.debug("Found {} featured cards ", listFeaturedCards);
         return listFeaturedCards;
     }
 
     @Transactional
-    public CardDto insertCard(CardDto cardDto) {
+    public CardDto saveCard(CardDto cardDto) {
         log.debug("Inserting new card: {}", cardDto);
-        Card card = cardMapper.toCard(cardDto);
+        Card card = cardMapper.toEntity(cardDto);
         Card savedCard = cardRepository.save(card);
-        CardDto savedCardDto = cardMapper.toCardDto(savedCard);
+        CardDto savedCardDto = cardMapper.toDto(savedCard);
         log.debug("Inserted new card: {}", savedCardDto);
         return savedCardDto;
     }

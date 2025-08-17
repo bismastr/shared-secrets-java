@@ -14,7 +14,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -98,7 +98,7 @@ public class CardRepositoryTest {
         Card card = new Card();
         card.setQuestion(question);
         card.setFeatured(isFeatured);
-        card.setUpdatedAt(LocalDateTime.now());
+        card.setUpdatedAt(OffsetDateTime.now());
         return card;
     }
 }

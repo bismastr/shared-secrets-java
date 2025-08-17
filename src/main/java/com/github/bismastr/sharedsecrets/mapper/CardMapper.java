@@ -3,9 +3,10 @@ package com.github.bismastr.sharedsecrets.mapper;
 import com.github.bismastr.sharedsecrets.dto.CardDto;
 import com.github.bismastr.sharedsecrets.model.Card;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface CardMapper {
-    CardDto toCardDto(Card card);
-    Card toCard(CardDto cardDto);
+    CardDto toDto(Card card);
+    Card toEntity(CardDto cardDto);
 }

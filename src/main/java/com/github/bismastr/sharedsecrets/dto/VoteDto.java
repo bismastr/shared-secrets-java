@@ -1,11 +1,11 @@
 package com.github.bismastr.sharedsecrets.dto;
 
 import com.github.bismastr.sharedsecrets.model.Answer;
+import com.github.bismastr.sharedsecrets.model.enums.VoteType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -14,12 +14,12 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AnswerVoteDto implements Serializable {
+public class VoteDto {
     UUID id;
     Answer answer;
     @NotNull
     @Size(max = 10)
-    String voteType;
+    VoteType voteType;
     @Size(max = 10)
     String emoji;
     @NotNull

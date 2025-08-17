@@ -2,11 +2,11 @@ plugins {
     id("org.springframework.boot") version "3.5.4"
     id("io.spring.dependency-management") version "1.1.4"
     java
+    kotlin("jvm")
 }
 
 group = "com.github.bismastr.sharedsecrets"
 version = "1.0.0"
-java.sourceCompatibility = JavaVersion.VERSION_21
 
 repositories {
     mavenCentral()
@@ -44,6 +44,7 @@ dependencies {
     // Testcontainers with JUnit 5 integration
     testImplementation("org.testcontainers:junit-jupiter:${testcontainersVersion}")
     testImplementation("org.testcontainers:postgresql:${testcontainersVersion}")
+    implementation(kotlin("stdlib-jdk8"))
 }
 
 tasks.test {
@@ -52,4 +53,7 @@ tasks.test {
 
 springBoot {
     mainClass = "com.github.bismastr.sharedsecrets.Main"
+}
+kotlin {
+    jvmToolchain(21)
 }

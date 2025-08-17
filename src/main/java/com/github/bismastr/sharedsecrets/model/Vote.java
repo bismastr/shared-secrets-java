@@ -1,5 +1,6 @@
 package com.github.bismastr.sharedsecrets.model;
 
+import com.github.bismastr.sharedsecrets.model.enums.VoteType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "answer_vote")
-public class AnswerVote {
+public class Vote {
     @Id
     @GeneratedValue
     @Column(name = "id", nullable = false)
@@ -22,9 +23,9 @@ public class AnswerVote {
     @JoinColumn(name = "answer_id")
     private Answer answer;
 
-    @Size(max = 10)
+    @Enumerated(EnumType.STRING)
     @Column(name = "vote_type", nullable = false, length = 10)
-    private String voteType;
+    private VoteType voteType;
 
     @Size(max = 10)
     @Column(name = "emoji", length = 10)

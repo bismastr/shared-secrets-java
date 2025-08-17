@@ -10,7 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,15 +38,15 @@ public class CardServiceTest {
         card1.setId(UUID.randomUUID());
         card1.setQuestion("Question");
         card1.setFeatured(true);
-        card1.setCreatedAt(LocalDateTime.now());
-        card1.setUpdatedAt(LocalDateTime.now());
+        card1.setCreatedAt(OffsetDateTime.now());
+        card1.setUpdatedAt(OffsetDateTime.now());
 
         Card card2 = new Card();
         card2.setId(UUID.randomUUID());
         card1.setQuestion("Question");
         card2.setFeatured(true);
-        card2.setCreatedAt(LocalDateTime.now());
-        card2.setUpdatedAt(LocalDateTime.now());
+        card2.setCreatedAt(OffsetDateTime.now());
+        card2.setUpdatedAt(OffsetDateTime.now());
 
         CardDto cardDto1 = CardDto.builder()
                 .id(card1.getId())
@@ -66,8 +66,8 @@ public class CardServiceTest {
 
         List<Card> featuredCards = List.of(card1, card2);
         when(cardRepository.findAllByFeatured(isFeatured)).thenReturn(featuredCards);
-        when(cardMapper.toCardDto(card1)).thenReturn(cardDto1);
-        when(cardMapper.toCardDto(card2)).thenReturn(cardDto2);
+        when(cardMapper.toDto(card1)).thenReturn(cardDto1);
+        when(cardMapper.toDto(card2)).thenReturn(cardDto2);
         // Act
         List<CardDto> result = cardService.getFeaturedCards(isFeatured);
 
@@ -77,8 +77,8 @@ public class CardServiceTest {
         assertThat(result).containsExactlyInAnyOrder(cardDto1, cardDto2);
 
         verify(cardRepository).findAllByFeatured(isFeatured);
-        verify(cardMapper).toCardDto(card1);
-        verify(cardMapper).toCardDto(card2);
+        verify(cardMapper).toDto(card1);
+        verify(cardMapper).toDto(card2);
     }
 
     @Test
