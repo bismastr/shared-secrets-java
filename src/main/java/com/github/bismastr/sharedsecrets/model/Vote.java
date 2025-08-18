@@ -1,5 +1,6 @@
 package com.github.bismastr.sharedsecrets.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.github.bismastr.sharedsecrets.model.enums.VoteType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -21,6 +22,7 @@ public class Vote {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "answer_id")
+    @JsonBackReference
     private Answer answer;
 
     @Enumerated(EnumType.STRING)

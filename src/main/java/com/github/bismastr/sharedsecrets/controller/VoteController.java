@@ -1,7 +1,8 @@
 package com.github.bismastr.sharedsecrets.controller;
 
 
-import com.github.bismastr.sharedsecrets.dto.VoteDto;
+import com.github.bismastr.sharedsecrets.dto.vote.VoteResponseDto;
+import com.github.bismastr.sharedsecrets.dto.vote.VoteRequestDto;
 import com.github.bismastr.sharedsecrets.service.VoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,8 @@ public class VoteController {
     private final VoteService voteService;
 
     @PostMapping
-    public ResponseEntity<VoteDto> saveVote(@RequestBody VoteDto voteDto) {
-        VoteDto voted = voteService.saveVote(voteDto);
+    public ResponseEntity<VoteResponseDto> saveVote(@RequestBody VoteRequestDto voteDto) {
+        VoteResponseDto voted = voteService.saveVote(voteDto);
         return ResponseEntity.ok(voted);
     }
 }

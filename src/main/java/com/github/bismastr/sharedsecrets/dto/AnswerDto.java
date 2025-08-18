@@ -1,5 +1,6 @@
 package com.github.bismastr.sharedsecrets.dto;
 
+import com.github.bismastr.sharedsecrets.dto.vote.VoteResponseDto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
@@ -19,5 +20,5 @@ public class AnswerDto {
     String answerText;
     OffsetDateTime createdAt;
     OffsetDateTime updatedAt;
-    Set<VoteDto> answerVotes;
+    Set<VoteResponseDto> answerVotes;
 }

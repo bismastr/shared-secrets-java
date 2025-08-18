@@ -1,6 +1,7 @@
 package com.github.bismastr.sharedsecrets.model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,6 +38,7 @@ public class Answer {
     private OffsetDateTime updatedAt;
 
     @OneToMany(mappedBy = "answer")
+    @JsonManagedReference
     private Set<Vote> votes = new LinkedHashSet<>();
 
     @PrePersist
