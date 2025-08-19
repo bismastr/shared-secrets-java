@@ -1,9 +1,12 @@
 package com.github.bismastr.sharedsecrets.service;
 
-import com.github.bismastr.sharedsecrets.dto.AnswerDto;
+import com.github.bismastr.sharedsecrets.dto.answer.AnswerResponseDto;
 import com.github.bismastr.sharedsecrets.mapper.AnswerMapper;
 import com.github.bismastr.sharedsecrets.model.Answer;
+import com.github.bismastr.sharedsecrets.model.Card;
 import com.github.bismastr.sharedsecrets.repository.AnswerRepository;
+import com.github.bismastr.sharedsecrets.repository.CardRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -11,11 +14,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.OffsetDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -25,6 +28,9 @@ class AnswerServiceTest {
     private AnswerRepository answerRepository;
 
     @Mock
+    private CardRepository cardRepository;
+
+    @Mock
     private AnswerMapper answerMapper;
 
     @InjectMocks
@@ -32,7 +38,12 @@ class AnswerServiceTest {
 
     @Test
     void saveAnswer_shouldSaveAndReturnMappedDto() {
-        AnswerDto answerDtoToSave = AnswerDto.builder()
+        UUID cardId = UUID.randomUUID();
+        Card card = new Card();
+        card.setId(cardId);
+
+        AnswerResponseDto answerResponseDtoToSave = AnswerResponseDto.builder()
+                .cardId(cardId)
                 .answerText("This is a test answer.")
                 .build();
 
@@ -41,28 +52,39 @@ class AnswerServiceTest {
 
         Answer savedAnswer = new Answer();
         savedAnswer.setId(UUID.randomUUID());
+        savedAnswer.setCard(card);
+        savedAnswer.setAnswerText("This is a test answer.");
         savedAnswer.setCreatedAt(OffsetDateTime.now());
         savedAnswer.setUpdatedAt(OffsetDateTime.now());
 
-        AnswerDto expectedDto = AnswerDto.builder()
-            .id(savedAnswer.getId())
-            .answerText(savedAnswer.getAnswerText())
-            .createdAt(savedAnswer.getCreatedAt())
-            .updatedAt(savedAnswer.getUpdatedAt())
-            .build();
+        AnswerResponseDto expectedDto = AnswerResponseDto.builder()
+                .id(savedAnswer.getId())
+                .cardId(cardId)
+                .answerText(savedAnswer.getAnswerText())
+                .createdAt(savedAnswer.getCreatedAt())
+                .updatedAt(savedAnswer.getUpdatedAt())
+                .build();
 
-        when(answerMapper.toEntity(any(AnswerDto.class))).thenReturn(answerToSave);
-        when(answerRepository.save(any(Answer.class))).thenReturn(savedAnswer);
-        when(answerMapper.toDto(any(Answer.class))).thenReturn(expectedDto);
-
-        AnswerDto result = answerService.saveAnswer(answerDtoToSave);
+        AnswerResponseDto result = answerService.saveAnswer(answerResponseDtoToSave);
 
         assertThat(result).isNotNull();
         assertThat(result.getId()).isEqualTo(expectedDto.getId());
+        assertThat(result.getCardId()).isEqualTo(cardId);
         assertThat(result.getAnswerText()).isEqualTo(expectedDto.getAnswerText());
+    }
 
-        verify(answerMapper).toEntity(answerDtoToSave);
-        verify(answerRepository).save(answerToSave);
-        verify(answerMapper).toDto(savedAnswer);
+    @Test
+    void saveAnswer_shouldThrowException_whenCardNotFound() {
+        UUID cardId = UUID.randomUUID();
+        AnswerResponseDto answerResponseDtoToSave = AnswerResponseDto.builder()
+                .cardId(cardId)
+                .answerText("This answer won't be saved.")
+                .build();
+
+        when(cardRepository.findById(cardId)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> answerService.saveAnswer(answerResponseDtoToSave))
+                .isInstanceOf(EntityNotFoundException.class)
+                .hasMessage("Card not found with id: " + cardId);
     }
 }

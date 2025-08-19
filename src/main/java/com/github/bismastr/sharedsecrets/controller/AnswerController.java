@@ -1,6 +1,6 @@
 package com.github.bismastr.sharedsecrets.controller;
 
-import com.github.bismastr.sharedsecrets.dto.AnswerDto;
+import com.github.bismastr.sharedsecrets.dto.answer.AnswerResponseDto;
 import com.github.bismastr.sharedsecrets.service.AnswerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +17,8 @@ public class AnswerController {
     private final AnswerService answerService;
 
     @PostMapping
-    public ResponseEntity<AnswerDto> saveAnswer(@RequestBody AnswerDto answerDto) {
-        AnswerDto savedAnswer = answerService.saveAnswer(answerDto);
+    public ResponseEntity<AnswerResponseDto> saveAnswer(@RequestBody AnswerResponseDto answerResponseDto) {
+        AnswerResponseDto savedAnswer = answerService.saveAnswer(answerResponseDto);
         return ResponseEntity.ok(savedAnswer);
     }
 }

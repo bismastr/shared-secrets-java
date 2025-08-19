@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -40,5 +41,15 @@ public class CardService {
         CardDto savedCardDto = cardMapper.toDto(savedCard);
         log.debug("Inserted new card: {}", savedCardDto);
         return savedCardDto;
+    }
+
+    @Transactional(readOnly = true)
+    public CardDto getCardById(UUID cardId) {
+        log.debug("Retrieving card by ID: {}", cardId);
+        Card card = cardRepository.findById(cardId)
+                .orElseThrow(() -> new IllegalArgumentException("Card not found with ID: " + cardId));
+        CardDto cardDto = cardMapper.toDto(card);
+        log.debug("Found card: {}", cardDto);
+        return cardDto;
     }
 }

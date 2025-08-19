@@ -96,4 +96,38 @@ public class CardServiceTest {
 
         verify(cardRepository).findAllByFeatured(isFeatured);
     }
+
+    @Test
+    void getCardById_WhenCardExists_ShouldReturnCardDto() {
+        // Arrange
+        UUID cardId = UUID.randomUUID();
+        Card card = new Card();
+        card.setId(cardId);
+        card.setQuestion("Question");
+        card.setFeatured(true);
+        card.setCreatedAt(OffsetDateTime.now());
+        card.setUpdatedAt(OffsetDateTime.now());
+
+        CardDto cardDto = CardDto.builder()
+                .id(card.getId())
+                .question(card.getQuestion())
+                .featured(card.isFeatured())
+                .createdAt(card.getCreatedAt())
+                .updatedAt(card.getUpdatedAt())
+                .build();
+
+        when(cardRepository.findById(cardId)).thenReturn(java.util.Optional.of(card));
+        when(cardMapper.toDto(card)).thenReturn(cardDto);
+
+        // Act
+        CardDto result = cardService.getCardById(cardId);
+
+        // Assert
+        assertThat(result).isNotNull();
+        assertThat(result.getId()).isEqualTo(cardId);
+        assertThat(result.getQuestion()).isEqualTo("Question");
+
+        verify(cardRepository).findById(cardId);
+        verify(cardMapper).toDto(card);
+    }
 }

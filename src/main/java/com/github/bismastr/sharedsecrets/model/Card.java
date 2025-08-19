@@ -1,6 +1,7 @@
 package com.github.bismastr.sharedsecrets.model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.OffsetDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -32,6 +35,10 @@ public class Card {
 
     @Column(name = "updated_at", nullable = false)
     private OffsetDateTime updatedAt;
+
+    @OneToMany(mappedBy = "card")
+    @JsonManagedReference
+    private Set<Answer> answers = new LinkedHashSet<>();
 
     @PrePersist
     protected void onCreate() {

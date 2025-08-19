@@ -1,6 +1,7 @@
 package com.github.bismastr.sharedsecrets.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,8 +26,10 @@ public class Answer {
     @Column(name = "id", nullable = false, updatable = false)
     private UUID id;
 
-    @Column(name = "card_id", nullable = false)
-    private UUID cardId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "card_id", nullable = false)
+    @JsonBackReference()
+    private Card card;
 
     @Column(name = "answer_text", nullable = false)
     private String answerText;
