@@ -1,11 +1,12 @@
 package com.github.bismastr.sharedsecrets.service;
 
-import com.github.bismastr.sharedsecrets.dto.answer.AnswerResponseDto;
-import com.github.bismastr.sharedsecrets.mapper.AnswerMapper;
-import com.github.bismastr.sharedsecrets.model.Answer;
-import com.github.bismastr.sharedsecrets.model.Card;
-import com.github.bismastr.sharedsecrets.repository.AnswerRepository;
-import com.github.bismastr.sharedsecrets.repository.CardRepository;
+import com.github.bismastr.sharedsecrets.answer.dto.AnswerResponseDto;
+import com.github.bismastr.sharedsecrets.answer.mapper.AnswerMapper;
+import com.github.bismastr.sharedsecrets.answer.model.Answer;
+import com.github.bismastr.sharedsecrets.answer.service.AnswerService;
+import com.github.bismastr.sharedsecrets.card.model.Card;
+import com.github.bismastr.sharedsecrets.answer.repository.AnswerRepository;
+import com.github.bismastr.sharedsecrets.card.repository.CardRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

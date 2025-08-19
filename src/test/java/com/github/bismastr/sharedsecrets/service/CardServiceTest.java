@@ -1,9 +1,10 @@
 package com.github.bismastr.sharedsecrets.service;
 
-import com.github.bismastr.sharedsecrets.dto.CardDto;
-import com.github.bismastr.sharedsecrets.mapper.CardMapper;
-import com.github.bismastr.sharedsecrets.model.Card;
-import com.github.bismastr.sharedsecrets.repository.CardRepository;
+import com.github.bismastr.sharedsecrets.card.dto.CardDto;
+import com.github.bismastr.sharedsecrets.card.service.CardService;
+import com.github.bismastr.sharedsecrets.card.mapper.CardMapper;
+import com.github.bismastr.sharedsecrets.card.model.Card;
+import com.github.bismastr.sharedsecrets.card.repository.CardRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

@@ -1,6 +1,7 @@
 package com.github.bismastr.sharedsecrets.repository;
 
-import com.github.bismastr.sharedsecrets.model.Card;
+import com.github.bismastr.sharedsecrets.card.repository.CardRepository;
+import com.github.bismastr.sharedsecrets.card.model.Card;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
