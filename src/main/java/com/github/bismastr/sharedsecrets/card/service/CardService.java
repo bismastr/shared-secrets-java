@@ -5,6 +5,7 @@ import com.github.bismastr.sharedsecrets.card.dto.CardDto;
 import com.github.bismastr.sharedsecrets.card.mapper.CardMapper;
 import com.github.bismastr.sharedsecrets.card.model.Card;
 import com.github.bismastr.sharedsecrets.card.repository.CardRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -47,7 +48,7 @@ public class CardService {
     public CardDto getCardById(UUID cardId) {
         log.debug("Retrieving card by ID: {}", cardId);
         Card card = cardRepository.findById(cardId)
-                .orElseThrow(() -> new IllegalArgumentException("Card not found with ID: " + cardId));
+                .orElseThrow(() -> new EntityNotFoundException("Card not found with ID: " + cardId));
         CardDto cardDto = cardMapper.toDto(card);
         log.debug("Found card: {}", cardDto);
         return cardDto;

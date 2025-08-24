@@ -6,6 +6,7 @@ import com.github.bismastr.sharedsecrets.answer.mapper.AnswerMapper;
 import com.github.bismastr.sharedsecrets.answer.model.Answer;
 import com.github.bismastr.sharedsecrets.answer.repository.AnswerRepository;
 import com.github.bismastr.sharedsecrets.card.repository.CardRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class AnswerService {
         Answer answer = answerMapper.toEntity(answerResponseDto);
 
         cardRepository.findById(answerResponseDto.getCardId())
-                .orElseThrow(() -> new IllegalArgumentException("Card not found with ID: " + answerResponseDto.getCardId()));
+                .orElseThrow(() -> new EntityNotFoundException("Card not found with ID: " + answerResponseDto.getCardId()));
         answer.setCard(cardRepository.getReferenceById(answerResponseDto.getCardId()));
         Answer savedAnswer = answerRepository.save(answer);
 
