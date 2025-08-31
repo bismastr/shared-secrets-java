@@ -71,4 +71,27 @@ class AnswerServiceTest {
         verify(cardRepository, never()).getReferenceById(any());
         verify(answerRepository, never()).save(any());
     }
+
+    @Test
+    @DisplayName("getAnswerByCardId returns list of AnswerResponseDto when card exists and answers are present")
+    void getAnswerByCardIdReturnsAnswersWhenCardExists() {
+        UUID cardId = UUID.randomUUID();
+        Card card = mock(Card.class);
+        Answer answer1 = mock(Answer.class);
+        Answer answer2 = mock(Answer.class);
+        AnswerResponseDto dto1 = mock(AnswerResponseDto.class);
+        AnswerResponseDto dto2 = mock(AnswerResponseDto.class);
+
+        when(cardRepository.findById(cardId)).thenReturn(Optional.of(card));
+        when(cardRepository.getReferenceById(cardId)).thenReturn(card);
+        when(answerRepository.getAnswersBycard(card)).thenReturn(java.util.List.of(answer1, answer2));
+        when(answerMapper.toDto(answer1)).thenReturn(dto1);
+        when(answerMapper.toDto(answer2)).thenReturn(dto2);
+
+        var response = answerService.getAnswerByCardId(cardId);
+
+        assertThat(response.getAnswers()).containsExactly(dto1, dto2);
+        verify(cardRepository).findById(cardId);
+        verify(answerRepository).getAnswersBycard(card);
+    }
 }

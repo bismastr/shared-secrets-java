@@ -4,10 +4,7 @@ import com.github.bismastr.sharedsecrets.answer.dto.AnswerResponseDto;
 import com.github.bismastr.sharedsecrets.answer.service.AnswerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -21,4 +18,10 @@ public class AnswerController {
         AnswerResponseDto savedAnswer = answerService.saveAnswer(answerResponseDto);
         return ResponseEntity.ok(savedAnswer);
     }
+
+//    @GetMapping("/{cardId}")
+//    public ResponseEntity<?> getAnswersByCardId(@PathVariable("cardId") String cardId) {
+//        var response = answerService.getAnswerByCardId(java.util.UUID.fromString(cardId));
+//        return ResponseEntity.ok(response);
+//    }
 }

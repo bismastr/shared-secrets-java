@@ -2,6 +2,7 @@ package com.github.bismastr.sharedsecrets.answer.service;
 
 
 import com.github.bismastr.sharedsecrets.answer.dto.AnswerResponseDto;
+import com.github.bismastr.sharedsecrets.answer.dto.GetAnswersByCardIdResponse;
 import com.github.bismastr.sharedsecrets.answer.mapper.AnswerMapper;
 import com.github.bismastr.sharedsecrets.answer.model.Answer;
 import com.github.bismastr.sharedsecrets.answer.repository.AnswerRepository;
@@ -11,6 +12,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -34,4 +38,25 @@ public class AnswerService {
         log.debug("Saved answer: {}", savedAnswerResponseDto);
         return savedAnswerResponseDto;
     }
+
+//    @Transactional
+//    public GetAnswersByCardIdResponse getAnswerByCardId(UUID cardId) {
+//        log.debug("Getting answer by card id: {}", cardId);
+//
+//        cardRepository.findById(cardId)
+//                .orElseThrow(() -> new EntityNotFoundException("Card not found with ID: " + cardId));
+//
+//        var cardRef = cardRepository.getReferenceById(cardId);
+//        List<Answer> answers = answerRepository.getAnswersBycard(cardRef);
+//
+//        List<AnswerResponseDto> answerResponseDtosList = answers.stream()
+//                .map(answerMapper::toDto)
+//                .toList();
+//
+//        GetAnswersByCardIdResponse response = GetAnswersByCardIdResponse.builder()
+//                .answers(answerResponseDtosList)
+//                .build();
+//
+//        return response;
+//    }
 }
