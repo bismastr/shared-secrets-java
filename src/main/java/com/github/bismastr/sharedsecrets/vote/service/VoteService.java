@@ -42,6 +42,4 @@ public class VoteService {
         voteAggregationWorker.submitForAggregation(answer.getId());
         return savedVoteResponseDto;
     }
-
-
 }
