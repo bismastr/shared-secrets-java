@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.github.bismastr.sharedsecrets.card.model.Card;
 import com.github.bismastr.sharedsecrets.vote.model.Vote;
+import com.github.bismastr.sharedsecrets.vote.model.VoteCount;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,7 +31,7 @@ public class Answer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "card_id", nullable = false)
-    @JsonBackReference()
+    @JsonBackReference
     private Card card;
 
     @Column(name = "answer_text", nullable = false)
@@ -45,6 +46,10 @@ public class Answer {
     @OneToMany(mappedBy = "answer")
     @JsonManagedReference
     private Set<Vote> votes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private Set<VoteCount> voteCounts = new LinkedHashSet<>();
 
     @PrePersist
     public void prePersist() {

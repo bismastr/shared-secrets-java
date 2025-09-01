@@ -1,6 +1,7 @@
 package com.github.bismastr.sharedsecrets.vote.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.github.bismastr.sharedsecrets.answer.model.Answer;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,6 +20,7 @@ public class VoteCount {
 
     @ManyToOne
     @JoinColumn(name = "answer_id", nullable = false)
+    @JsonBackReference
     private Answer answer;
 
     @Column(name = "emoticon", nullable = false, length = 10)

@@ -2,18 +2,19 @@ package com.github.bismastr.sharedsecrets.answer.service;
 
 
 import com.github.bismastr.sharedsecrets.answer.dto.AnswerResponseDto;
-import com.github.bismastr.sharedsecrets.answer.dto.GetAnswersByCardIdResponse;
 import com.github.bismastr.sharedsecrets.answer.mapper.AnswerMapper;
 import com.github.bismastr.sharedsecrets.answer.model.Answer;
 import com.github.bismastr.sharedsecrets.answer.repository.AnswerRepository;
+import com.github.bismastr.sharedsecrets.card.model.Card;
 import com.github.bismastr.sharedsecrets.card.repository.CardRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -39,24 +40,13 @@ public class AnswerService {
         return savedAnswerResponseDto;
     }
 
-//    @Transactional
-//    public GetAnswersByCardIdResponse getAnswerByCardId(UUID cardId) {
-//        log.debug("Getting answer by card id: {}", cardId);
-//
-//        cardRepository.findById(cardId)
-//                .orElseThrow(() -> new EntityNotFoundException("Card not found with ID: " + cardId));
-//
-//        var cardRef = cardRepository.getReferenceById(cardId);
-//        List<Answer> answers = answerRepository.getAnswersBycard(cardRef);
-//
-//        List<AnswerResponseDto> answerResponseDtosList = answers.stream()
-//                .map(answerMapper::toDto)
-//                .toList();
-//
-//        GetAnswersByCardIdResponse response = GetAnswersByCardIdResponse.builder()
-//                .answers(answerResponseDtosList)
-//                .build();
-//
-//        return response;
-//    }
+    @Transactional(readOnly = true)
+    public Page<Answer> findAllByCardId(UUID cardId, Pageable pageable) {
+        //TODO: need to map to Dto or response class
+
+        Card card = cardRepository.findById(cardId)
+                .orElseThrow(() -> new EntityNotFoundException("Card not found with ID: " + cardId));
+
+        return answerRepository.findAllByCardIdWithVoteCounts(card.getId(), pageable);
+    }
 }

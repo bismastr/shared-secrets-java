@@ -22,7 +22,7 @@ public class Vote {
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "answer_id")
+    @JoinColumn(name = "answer_id", nullable = false)
     @JsonBackReference
     private Answer answer;
 
