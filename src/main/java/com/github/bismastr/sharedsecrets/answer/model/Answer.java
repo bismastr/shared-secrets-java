@@ -43,7 +43,7 @@ public class Answer {
     @Column(name = "updated_at", nullable = false)
     private OffsetDateTime updatedAt;
 
-    @OneToMany(mappedBy = "answer")
+    @OneToMany(mappedBy = "answer", fetch = FetchType.LAZY)
     @JsonManagedReference
     private Set<Vote> votes = new LinkedHashSet<>();
 

@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -41,12 +42,11 @@ public class AnswerService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Answer> findAllByCardId(UUID cardId, Pageable pageable) {
-        //TODO: need to map to Dto or response class
-
+    public List<AnswerResponseDto> findAllByCardId(UUID cardId, Pageable pageable) {
         Card card = cardRepository.findById(cardId)
                 .orElseThrow(() -> new EntityNotFoundException("Card not found with ID: " + cardId));
 
-        return answerRepository.findAllByCardIdWithVoteCounts(card.getId(), pageable);
+        Page<Answer> answerPage = answerRepository.findAllByCardIdWithVoteCounts(card.getId(), pageable);
+        return answerMapper.toDtoList(answerPage.getContent());
     }
 }
