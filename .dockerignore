@@ -1,0 +1,25 @@
+# Ignore Gradle build output
+build/
+.gradle/
+
+# Ignore Maven build output (just in case)
+target/
+
+# Ignore IDE/project files
+.idea/
+.vscode/
+*.iml
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+
+# Ignore Git files
+.git
+.gitignore
+
+# Other files you don’t need in the image
+*.log
+.dockerignore
+Dockerfile
+README.md
