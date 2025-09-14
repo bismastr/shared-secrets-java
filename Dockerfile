@@ -1,10 +1,10 @@
-# ----------- Build Stage -----------
 FROM gradle:8.5.0-jdk17-alpine AS build
 WORKDIR /home/gradle/project
 
 COPY gradle gradle
 COPY gradlew build.gradle.kts ./
-RUN ./gradlew --no-daemon build -x test || return 0
+RUN chmod +x gradlew
+RUN ./gradlew --no-daemon build -x test
 
 COPY . .
 RUN ./gradlew --no-daemon clean bootJar -x test
