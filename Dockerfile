@@ -2,7 +2,7 @@ FROM gradle:8.5.0-jdk17-alpine AS build
 WORKDIR /home/gradle/project
 
 COPY gradle gradle
-COPY gradlew build.gradle.kts ./
+COPY gradlew build.gradle.kts settings.gradle.kts ./
 RUN chmod +x gradlew
 RUN ./gradlew --no-daemon build -x test
 
