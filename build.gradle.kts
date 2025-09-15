@@ -45,6 +45,8 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter:${testcontainersVersion}")
     testImplementation("org.testcontainers:postgresql:${testcontainersVersion}")
     implementation(kotlin("stdlib-jdk8"))
+
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
 }
 
 tasks.test {
